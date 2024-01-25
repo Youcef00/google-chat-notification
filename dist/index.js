@@ -13058,10 +13058,8 @@ const statusText = {
     failure: "Failed"
 };
 const textButton = (text, url) => ({
-    textButton: {
-        text,
-        onClick: { openLink: { url } }
-    }
+    text: text,
+    onClick: { openLink: { url } }
 });
 function notify(name, url, status) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -13073,44 +13071,80 @@ function notify(name, url, status) {
         const eventUrl = `${repoUrl}${eventPath}`;
         const checksUrl = `${repoUrl}${eventPath}/checks`;
         const body = {
-            cardsV2: [{
-                    sections: [
-                        {
-                            widgets: [{
-                                    textParagraph: {
-                                        text: `<b>${name} <span style="color:${statusColorPalette[status]}">${statusText[status]}</span></b>`
-                                    }
-                                }]
+            "cardsV2": [
+                {
+                    "cardId": "unique-card-id",
+                    "card": {
+                        "header": {
+                            "title": "Sasha",
+                            "subtitle": "Software Engineer",
+                            "imageUrl": "https://developers.google.com/chat/images/quickstart-app-avatar.png",
+                            "imageType": "CIRCLE",
+                            "imageAltText": "Avatar for Sasha",
                         },
-                        {
-                            widgets: [
-                                {
-                                    keyValue: {
-                                        topLabel: "repository",
-                                        content: `${owner}/${repo}`,
-                                        contentMultiline: true,
-                                        button: textButton("OPEN REPOSITORY", repoUrl)
-                                    }
-                                },
-                                {
-                                    keyValue: {
-                                        topLabel: "event name",
-                                        content: eventName,
-                                        button: textButton("OPEN EVENT", eventUrl)
-                                    }
-                                },
-                                {
-                                    keyValue: { topLabel: "ref", content: ref }
-                                }
-                            ]
-                        },
-                        {
-                            widgets: [{
-                                    buttons: [textButton("OPEN CHECKS", checksUrl)]
-                                }]
-                        }
-                    ]
-                }]
+                        "sections": [
+                            {
+                                "header": "Contact Info",
+                                "uncollapsibleWidgetsCount": 1,
+                                "widgets": [
+                                    {
+                                        "decoratedText": {
+                                            "startIcon": {
+                                                "knownIcon": "EMAIL",
+                                            },
+                                            "text": "sasha@example.com",
+                                        }
+                                    },
+                                    {
+                                        "decoratedText": {
+                                            "startIcon": {
+                                                "knownIcon": "PERSON",
+                                            },
+                                            "text": "<font color=\"#80e27e\">Online</font>",
+                                        },
+                                    },
+                                    {
+                                        "decoratedText": {
+                                            "startIcon": {
+                                                "knownIcon": "PHONE",
+                                            },
+                                            "text": "+1 (555) 555-1234",
+                                        }
+                                    },
+                                    {
+                                        "buttonList": {
+                                            "buttons": [
+                                                {
+                                                    "text": "Share",
+                                                    "onClick": {
+                                                        "openLink": {
+                                                            "url": "https://example.com/share",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "text": "Edit",
+                                                    "onClick": {
+                                                        "action": {
+                                                            "function": "goToView",
+                                                            "parameters": [
+                                                                {
+                                                                    "key": "viewType",
+                                                                    "value": "EDIT",
+                                                                }
+                                                            ],
+                                                        }
+                                                    }
+                                                },
+                                            ],
+                                        }
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                }
+            ],
         };
         console.info(`Sending request with body ${JSON.stringify(body)}`);
         let response;
