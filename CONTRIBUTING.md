@@ -109,10 +109,12 @@ jobs:
    notify:
       runs-on: ubuntu-latest
       steps:
-         - name: Send Google Chat Notification
+         - name: Google Chat Notification
            uses: Youcef00/google-chat-notification@feature/my-feature-title
            with:
-              webhookUrl: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
+              name: Test
+              url: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
+              status: ${{ job.status }}
 ```
 
 ## Submitting your contribution

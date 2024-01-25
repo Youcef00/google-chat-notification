@@ -13078,7 +13078,7 @@ function notify(name, url, status) {
                         {
                             widgets: [{
                                     textParagraph: {
-                                        text: `<b>${name} <span style="color:'${statusColorPalette[status]}' ">${statusText[status]}</span></b>`
+                                        text: `<b>${name} <span style="color:${statusColorPalette[status]}">${statusText[status]}</span></b>`
                                     }
                                 }]
                         },
@@ -13112,9 +13112,17 @@ function notify(name, url, status) {
                     ]
                 }]
         };
-        const response = yield axios.default.post(url, body);
-        if (response.status !== 200) {
-            throw new Error(`Google Chat notification failed. response status=${response.status}`);
+        let response;
+        try {
+            response = yield axios.default.post(url, body);
+            console.log('Google Chat notification sent successfully.');
+        }
+        catch (error) {
+            console.error('Error sending Google Chat notification:', error);
+            throw error;
+        }
+        if (response !== undefined && response.status !== 200) {
+            throw new Error(`Google Chat notification failed. Response status: ${response.status}`);
         }
     });
 }
@@ -13187,7 +13195,7 @@ function run() {
         }
     });
 }
-run().then(() => console.info('Action finished successfully.')).catch(() => console.error('Action failed.'));
+run();
 
 
 /***/ }),

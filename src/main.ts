@@ -23,4 +23,4 @@ async function run() {
   }
 }
 
-run().then( () => console.info('Action finished successfully.')).catch( () => console.error('Action failed.'));
+run();

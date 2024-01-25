@@ -36,7 +36,7 @@ export async function notify(name: string, url: string, status: Status) {
         {
           widgets: [{
             textParagraph: {
-              text: `<b>${name} <span style="color:'${statusColorPalette[status]}' ">${statusText[status]}</span></b>`
+              text: `<b>${name} <span style="color:${statusColorPalette[status]}">${statusText[status]}</span></b>`
             }
           }]
         },
@@ -71,8 +71,16 @@ export async function notify(name: string, url: string, status: Status) {
     }]
   };
 
-  const response = await axios.default.post(url, body);
-  if (response.status !== 200) {
-    throw new Error(`Google Chat notification failed. response status=${response.status}`);
+  let response;
+  try {
+    response = await axios.default.post(url, body);
+    console.log('Google Chat notification sent successfully.');
+  } catch (error) {
+    console.error('Error sending Google Chat notification:', error);
+    throw error;
   }
+  if (response !== undefined && response.status !== 200) {
+    throw new Error(`Google Chat notification failed. Response status: ${response.status}`);
+  }
+
 }
