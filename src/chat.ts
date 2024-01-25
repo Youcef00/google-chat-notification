@@ -31,12 +31,12 @@ export async function notify(name: string, url: string, status: Status) {
   const checksUrl = `${repoUrl}${eventPath}/checks`;
 
   const body = {
-    cards: [{
+    cardsV2: [{
       sections: [
         {
           widgets: [{
             textParagraph: {
-              text: `<b>${name} <font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
+              text: `<b>${name} <span style="color:'${statusColorPalette[status]}' ">${statusText[status]}</span></b>`
             }
           }]
         },
