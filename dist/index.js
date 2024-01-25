@@ -13112,6 +13112,7 @@ function notify(name, url, status) {
                     ]
                 }]
         };
+        console.info(`Sending request with body ${JSON.stringify(body)}`);
         let response;
         try {
             response = yield axios.default.post(url, body);

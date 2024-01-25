@@ -71,6 +71,8 @@ export async function notify(name: string, url: string, status: Status) {
     }]
   };
 
+  console.info(`Sending request with body ${JSON.stringify(body)}`);
+
   let response;
   try {
     response = await axios.default.post(url, body);
