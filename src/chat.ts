@@ -15,8 +15,22 @@ const statusText: { [key in Status]: string } = {
 };
 
 const textButton = (text: string, url: string) => ({
-    text: text,
-    onClick: {openLink: {url}}
+    buttons: [
+        {
+            text: text,
+            color: {
+                red: 0,
+                green: 0.4,
+                blue: 1,
+                alpha: 1
+            },
+            onClick: {
+                openLink: {
+                    url
+                }
+            }
+        }
+    ]
 });
 
 export async function notify(name: string, url: string, status: Status) {
@@ -29,79 +43,154 @@ export async function notify(name: string, url: string, status: Status) {
     const checksUrl = `${repoUrl}${eventPath}/checks`;
 
     const body = {
-        "cardsV2": [
+        cardsV2: [
             {
-                "cardId": "unique-card-id",
-                "card": {
-                    "header": {
-                        "title": "Sasha",
-                        "subtitle": "Software Engineer",
-                        "imageUrl":
-                            "https://developers.google.com/chat/images/quickstart-app-avatar.png",
-                        "imageType": "CIRCLE",
-                        "imageAltText": "Avatar for Sasha",
-                    },
-                    "sections": [
+                cardId: "unique-card-id",
+                card: {
+                    sections: [
                         {
-                            "header": "Contact Info",
-                            "uncollapsibleWidgetsCount": 1,
-                            "widgets": [
+                            widgets: [
                                 {
-                                    "decoratedText": {
-                                        "startIcon": {
-                                            "knownIcon": "EMAIL",
-                                        },
-                                        "text": "sasha@example.com",
-                                    }
-                                },
-                                {
-                                    "decoratedText": {
-                                        "startIcon": {
-                                            "knownIcon": "PERSON",
-                                        },
-                                        "text": "<font color=\"#80e27e\">Online</font>",
-                                    },
-                                },
-                                {
-                                    "decoratedText": {
-                                        "startIcon": {
-                                            "knownIcon": "PHONE",
-                                        },
-                                        "text": "+1 (555) 555-1234",
-                                    }
-                                },
-                                {
-                                    "buttonList": {
-                                        "buttons": [
+                                    columns: {
+                                        columnItems: [
                                             {
-                                                "text": "Share",
-                                                "onClick": {
-                                                    "openLink": {
-                                                        "url": "https://example.com/share",
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                horizontalAlignment: "START",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        textParagraph: {
+                                                            text: `<b>${name} <font color=${statusColorPalette[status]} >${statusText[status]}</font></b>`
+
+                                                        }
                                                     }
-                                                }
-                                            },
-                                            {
-                                                "text": "Edit",
-                                                "onClick": {
-                                                    "action": {
-                                                        "function": "goToView",
-                                                        "parameters": [
-                                                            {
-                                                                "key": "viewType",
-                                                                "value": "EDIT",
-                                                            }
-                                                        ],
-                                                    }
-                                                }
-                                            },
-                                        ],
+                                                ]
+                                            }
+                                        ]
                                     }
-                                },
-                            ],
+                                }
+                            ]
                         },
-                    ],
-                },
+                        {
+                            header: "Repository",
+                            widgets: [
+                                {
+                                    columns: {
+                                        columnItems: [
+                                            {
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        decoratedText: {
+                                                            icon: {
+                                                                knownIcon: "BOOKMARK"
+                                                            },
+                                                            text:
+                                                                `${owner}/${repo}`
+
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                horizontalAlignment: "END",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        buttonList: textButton("Open repository", repoUrl)
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            header: "Event name",
+                            widgets: [
+                                {
+                                    columns: {
+                                        columnItems: [
+                                            {
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        decoratedText: {
+                                                            icon: {
+                                                                knownIcon: "HOTEL_ROOM_TYPE"
+                                                            },
+                                                            text: eventName
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                horizontalAlignment: "END",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        buttonList: textButton("Open event", eventUrl)
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            header: "Reference name",
+                            widgets: [
+                                {
+                                    columns: {
+                                        columnItems: [
+                                            {
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        decoratedText: {
+                                                            icon: {
+                                                                knownIcon: "DESCRIPTION"
+                                                            },
+                                                            text: ref
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            widgets: [
+                                {
+                                    columns: {
+                                        columnItems: [
+                                            {
+                                                horizontalSizeStyle: "FILL_AVAILABLE_SPACE",
+                                                horizontalAlignment: "CENTER",
+                                                verticalAlignment: "CENTER",
+                                                widgets: [
+                                                    {
+                                                        buttonList: textButton("Open checks", checksUrl)
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+
             }
         ],
     };
@@ -110,7 +199,7 @@ export async function notify(name: string, url: string, status: Status) {
 
     let response;
     try {
-        response = await axios.default.post(url,body);
+        response = await axios.default.post(url, body);
         console.log('Google Chat notification sent successfully.');
     } catch (error) {
         console.error('Error sending Google Chat notification:', error);
